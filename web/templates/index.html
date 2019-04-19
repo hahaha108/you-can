@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <script>
+        $(document).ready(function () {
+            $("#tj").click(function () {
+                $.ajax({
+                    url: "/crawl/",
+                    type: "POST",
+                    dataType: "json",
+                    data: {'urlTextBox':$("input[name='urlTextBox']").val()},
+                    async: true,
+                    success: function (video_info) {
+                        var path = '/static/cache/'+ video_info.filename;
+                        $("#info").html("<video height=\"400\" width=\"550\" controls=\"controls\" autoplay=\"autoplay\" src=\"" + path + "\"></video>");
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+        <input type="text" name="urlTextBox" id="urlTextBox" placeholder="http://">
+        <button id="tj" type="submit">提交</button>
+        <div id="info"></div>
+{% endblock %}
